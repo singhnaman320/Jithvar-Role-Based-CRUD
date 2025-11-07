@@ -2,7 +2,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
-const publicBaseUrl = process.env.PUBLIC_BASE_URL; // e.g. https://jithvar-role-based-crud.onrender.com
+const publicBaseUrl = process.env.PUBLIC_BASE_URL;
 
 const options: swaggerJsdoc.Options = {
   definition: {
