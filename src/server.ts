@@ -47,7 +47,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/roles', roleRoutes);
 app.use('/api/permissions', permissionRoutes);
 app.use('/api/permission-groups', permissionGroupRoutes);
-app.use('/api/roles', rolePermissionRoutes);
+app.use('/api/role-permissions', rolePermissionRoutes);
 app.use('/api/group-permission-mappings', groupPermissionMappingRoutes);
 
 // Swagger Documentation
