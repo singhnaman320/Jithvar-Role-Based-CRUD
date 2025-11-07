@@ -1,0 +1,421 @@
+openapi: 3.0.0
+info:
+  title: Role-Based Authentication API
+  version: 1.0.0
+  description: API documentation for Role-Based Authentication System with CRUD operations
+servers:
+  - url: http://localhost:3000
+    description: Development server
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: rbac_session
+  schemas:
+    UserRegister:
+      type: object
+      required: [username, email, password]
+      properties:
+        username: { type: string }
+        email: { type: string }
+        password: { type: string }
+        role_id: { type: string, nullable: true }
+        is_active: { type: boolean }
+    UserLogin:
+      type: object
+      required: [username, password]
+      properties:
+        username: { type: string }
+        password: { type: string }
+    Role:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        is_active: { type: boolean }
+    Permission:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        permission_group_id: { type: string, nullable: true }
+    PermissionGroup:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+paths:
+  /api/auth/register:
+    post:
+      tags: [Authentication]
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '201': { description: Created }
+  /api/auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200': { description: OK }
+  /api/auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Logout
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+  /api/auth/me:
+    get:
+      tags: [Authentication]
+      summary: Current user
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+  /api/users:
+    get:
+      tags: [Users]
+      summary: List users
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Users]
+      summary: Create user
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                email: { type: string }
+                password: { type: string }
+                role_id: { type: string }
+                is_active: { type: boolean }
+      responses:
+        '201': { description: Created }
+  /api/users/{id}:
+    get:
+      tags: [Users]
+      summary: Get user by id
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+    put:
+      tags: [Users]
+      summary: Update user
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200': { description: OK }
+    delete:
+      tags: [Users]
+      summary: Delete user
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/roles:
+    get:
+      tags: [Roles]
+      summary: List roles
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Roles]
+      summary: Create role
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        '201': { description: Created }
+  /api/roles/{id}:
+    get:
+      tags: [Roles]
+      summary: Get role by id
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+    put:
+      tags: [Roles]
+      summary: Update role
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+      responses:
+        '200': { description: OK }
+    delete:
+      tags: [Roles]
+      summary: Delete role
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/permissions:
+    get:
+      tags: [Permissions]
+      summary: List permissions
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Permissions]
+      summary: Create permission
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Permission'
+      responses:
+        '201': { description: Created }
+  /api/permissions/{id}:
+    get:
+      tags: [Permissions]
+      summary: Get permission by id
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+    put:
+      tags: [Permissions]
+      summary: Update permission
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Permission'
+      responses:
+        '200': { description: OK }
+    delete:
+      tags: [Permissions]
+      summary: Delete permission
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/permission-groups:
+    get:
+      tags: [Permission Groups]
+      summary: List permission groups
+      security: [ { cookieAuth: [] } ]
+      responses:
+        '200': { description: OK }
+    post:
+      tags: [Permission Groups]
+      summary: Create permission group
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionGroup'
+      responses:
+        '201': { description: Created }
+  /api/permission-groups/{id}:
+    get:
+      tags: [Permission Groups]
+      summary: Get permission group by id
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+    put:
+      tags: [Permission Groups]
+      summary: Update permission group
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionGroup'
+      responses:
+        '200': { description: OK }
+    delete:
+      tags: [Permission Groups]
+      summary: Delete permission group
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/roles/{roleId}/permissions:
+    get:
+      tags: [Role Permissions]
+      summary: List role permissions
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/role-permissions:
+    post:
+      tags: [Role Permissions]
+      summary: Assign permission to role
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role_id, permission_id]
+              properties:
+                role_id: { type: string }
+                permission_id: { type: string }
+      responses:
+        '201': { description: Created }
+  /api/role-permissions/{roleId}/{permissionId}:
+    delete:
+      tags: [Role Permissions]
+      summary: Remove permission from role
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: roleId
+          required: true
+          schema: { type: string }
+        - in: path
+          name: permissionId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/permission-groups/{groupId}/permissions:
+    get:
+      tags: [Group Permission Mappings]
+      summary: List permissions in a permission group
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+  /api/group-permission-mappings:
+    post:
+      tags: [Group Permission Mappings]
+      summary: Add permission to group
+      security: [ { cookieAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [permission_group_id, permission_id]
+              properties:
+                permission_group_id: { type: string }
+                permission_id: { type: string }
+      responses:
+        '201': { description: Created }
+  /api/group-permission-mappings/{groupId}/{permissionId}:
+    delete:
+      tags: [Group Permission Mappings]
+      summary: Remove permission from group
+      security: [ { cookieAuth: [] } ]
+      parameters:
+        - in: path
+          name: groupId
+          required: true
+          schema: { type: string }
+        - in: path
+          name: permissionId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
