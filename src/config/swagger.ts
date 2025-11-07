@@ -2,6 +2,8 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
 
+const publicBaseUrl = process.env.PUBLIC_BASE_URL; // e.g. https://jithvar-role-based-crud.onrender.com
+
 const options: swaggerJsdoc.Options = {
   definition: {
     openapi: '3.0.0',
@@ -14,6 +16,14 @@ const options: swaggerJsdoc.Options = {
       },
     },
     servers: [
+      ...(publicBaseUrl
+        ? [
+            {
+              url: publicBaseUrl,
+              description: 'Production (Render) server',
+            },
+          ]
+        : []),
       {
         url: `http://localhost:${process.env.PORT || 3000}`,
         description: 'Development server',
@@ -45,6 +55,6 @@ const swaggerSpec = swaggerJsdoc(options);
 
 export const setupSwagger = (app: Express): void => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-  console.log(`Swagger documentation available at http://localhost:${process.env.PORT || 3000}/api-docs`);
+  console.log(`Swagger documentation available at ${publicBaseUrl || `http://localhost:${process.env.PORT || 3000}`}/api-docs`);
 };
 
