@@ -17,15 +17,11 @@ class Database {
       throw new Error('DATABASE_URL must start with postgresql:// or postgres://');
     }
 
-    // Determine SSL configuration
-    // Many cloud databases (Supabase, Railway, Render, etc.) require SSL
     let sslConfig: boolean | { rejectUnauthorized: boolean } = false;
     
     if (process.env.DATABASE_SSL === 'true' || process.env.DATABASE_SSL === 'required') {
-      // Explicitly enabled via environment variable
       sslConfig = { rejectUnauthorized: false };
     } else if (process.env.NODE_ENV === 'production') {
-      // Auto-enable in production
       sslConfig = { rejectUnauthorized: false };
     } else if (dbUrl.includes('.supabase.co') || 
                dbUrl.includes('.railway.app') || 
@@ -33,7 +29,7 @@ class Database {
                dbUrl.includes('.neon.tech') ||
                dbUrl.includes('amazonaws.com') ||
                dbUrl.includes('azure.com')) {
-      // Auto-detect common cloud providers that require SSL
+      
       sslConfig = { rejectUnauthorized: false };
     }
 

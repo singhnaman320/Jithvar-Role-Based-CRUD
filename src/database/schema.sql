@@ -1,6 +1,6 @@
 -- Role-Based Authentication System Database Schema
 
--- Create extension for UUID generation
+-- UUID generation
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Table: tbl_permission_groups
