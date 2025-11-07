@@ -79,7 +79,7 @@ export const UserRegisterSchema = z.object({
   is_active: z.boolean().default(true).optional(),
 });
 
-// Schema for creating user (internal use, accepts password_hash)
+// Schema for creating user
 export const UserCreateSchema = UserSchema.omit({ id: true, created_at: true, updated_at: true, last_login: true });
 export const UserUpdateSchema = UserSchema.partial().omit({ id: true, created_at: true });
 
