@@ -36,7 +36,7 @@ export const sessionConfig = session({
     tableName: 'session',
     createTableIfMissing: true,
   }),
-  secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+  secret: process.env.SESSION_SECRET || 'secret-key',
   resave: false,
   saveUninitialized: false,
   name: process.env.SESSION_NAME || 'rbac_session',

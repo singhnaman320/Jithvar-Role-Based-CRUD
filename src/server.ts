@@ -68,7 +68,7 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
-      console.log(`API Documentation: http://localhost:${PORT}/api-docs`);
+      console.log(`API Documentation: https://jithvar-role-based-crud.onrender.com/api-docs/`);
       console.log(`Database: Connected`);
     });
   } catch (error) {
