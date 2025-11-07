@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(sessionConfig);
 
 // Health check
-app.get('/health', async (req, res) => {
+app.get('/health', async (_req, res) => {
   const dbConnected = await db.testConnection();
   res.status(dbConnected ? 200 : 503).json({
     status: dbConnected ? 'healthy' : 'unhealthy',
