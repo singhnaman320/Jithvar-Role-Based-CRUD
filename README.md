@@ -319,6 +319,3 @@ curl -i -b cookies.txt -X DELETE http://localhost:3000/api/group-permission-mapp
 - Cookies are HTTP-only. Use HTTPS + `COOKIE_SECURE=true` in production.
 - Sessions persist in PostgreSQL (`session` table).
 - All IDs are UUIDs.
-
-#   J i t h v a r - R o l e - B a s e d - C R U D  
- 
